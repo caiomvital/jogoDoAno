@@ -4,49 +4,31 @@ import java.util.concurrent.locks.LockSupport;
 
 import controller.Calculos;
 import model.Char;
-import model.Dragao;
+import model.monsters.Dragao;
 
 public class DragaoVerde extends Dragao {
 	
-	private String nome;
-	private int vida;
-	private int ataque;
-	
 	public DragaoVerde(int vida, int ataque) {
-		this.nome = "Dragão Verde";
-		this.vida = 20;
-		this.ataque = 5;
+		super(vida, ataque);
+		super.setVida(Calculos.lancarDado() * 10);
+		if(super.getVida() < 40) {
+			super.setVida(40);;
+		}
+		super.setAtaque(Calculos.lancarDado() * 5);
+		if(super.getAtaque() < 20) {
+			super.setAtaque(20);
+		}
+		this.setNome("Dragão Verde");
 	}
 	
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public int getVida() {
-		return vida;
-	}
-	public void setVida(int vida) {
-		this.vida = vida;
-	}
-	public int getAtaque() {
-		return ataque;
-	}
-	public void setAtaque(int ataque) {
-		this.ataque = ataque;
-	}
 	@Override
 	public void receberDano(int dano, Char personagem) {
-		this.vida -= dano;
-		
+		super.setVida(super.getVida() - dano);
 		
 	}
 
 	@Override
 	public void causarDano(int dano, Char personagem) {
-		this.ataque = dano;
 		int dado = Calculos.lancarDado();
 		System.out.println("2)Dado lançado para o ataque de " + this.getNome() + "!!");
 		System.out.println("2)Resultado do Dado: " + dado);
@@ -54,19 +36,6 @@ public class DragaoVerde extends Dragao {
 		if (dado >= 5) {
 	        this.ataqueEspecial(dado, dano, personagem);
 	    }
-	}
-
-	@Override
-	public void exibirInformacoes() {
-		System.out.println("Nome do Monstro: " + this.nome);
-		System.out.println("Pontos de Vida: " + this.vida);
-		System.out.println("Pontos de Ataque: " + this.ataque);
-		if(Calculos.lancarDado() % 2 == 0) {
-			System.out.println("--O monstro está fazendo cara de mau");
-		} else {
-			System.out.println("--O monstro está piscando...");
-		}
-		
 	}
 
 	@Override
