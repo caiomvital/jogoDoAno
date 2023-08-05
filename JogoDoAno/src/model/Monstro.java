@@ -9,4 +9,5 @@ public interface Monstro {
     String getNome();
     int getVida();
     void exibirInformacoes();
+    
 }
