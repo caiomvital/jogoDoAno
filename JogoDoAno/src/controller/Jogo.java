@@ -6,7 +6,12 @@ import java.util.Scanner;
 
 import model.Char;
 import model.Monstro;
+import model.monsters.Dragao;
+import model.monsters.Slime;
+import model.monsters.Zumbi;
 import view.DragaoVerde;
+import view.SlimeVerde;
+import view.ZumbiVerde;
 
 public class Jogo {
 	
@@ -26,9 +31,15 @@ public class Jogo {
 	
 	public static void inicializarMonstros() {
         monstros = new ArrayList<>();
-        monstros.add(new DragaoVerde(50, 15));
-        monstros.add(new DragaoVerde(70, 20));
-        monstros.add(new DragaoVerde(90, 25));
+        monstros.add(new DragaoVerde(0, 0));
+        monstros.add(new SlimeVerde(0, 0));
+        monstros.add(new ZumbiVerde(0, 0));
+        monstros.add(new DragaoVerde(0, 0));
+        monstros.add(new SlimeVerde(0, 0));
+        monstros.add(new ZumbiVerde(0, 0));
+        monstros.add(new DragaoVerde(0, 0));
+        monstros.add(new SlimeVerde(0, 0));
+        monstros.add(new ZumbiVerde(0, 0));
         // Lembrete: Adicionar mais monstros à lista...
     }
 	
@@ -49,7 +60,7 @@ public class Jogo {
 				inicializarMonstros();
 				break;
 			case 2:
-				//lógica de carregamento do jogo
+				//carregamento do jogo
 				break;
 			case 3:
 				System.out.println("Até mais!");
@@ -72,14 +83,21 @@ public class Jogo {
                 
             }
 
-            // exibe o resultado da batalha
+            // exibe resultado da batalha
             if (jogador.getVida() <= 0) {
                 System.out.println(jogador.getNome() + " foi derrotado! Fim de jogo.");
                 fimBatalha = true;
             } else if (monstro.getVida() <= 0) {
                 System.out.println(jogador.getNome() + " derrotou o " + monstro.getNome() + "!");
                 System.out.println("### ### ### ###");
-                int experiencia = Calculos.lancarDado() * 2;
+                int experiencia = Calculos.lancarDado();
+                if(monstro instanceof Dragao) {
+                	experiencia *= 4;
+                } else if (monstro instanceof Slime) {
+                	experiencia *= 2;
+                } else if (monstro instanceof Zumbi) {
+                	experiencia *= 3;
+                }
                 if(experiencia > 10) {
                 	experiencia = 10;
                 }
@@ -90,12 +108,16 @@ public class Jogo {
                     System.out.println("Parabéns! Você venceu o jogo!");
                     fimBatalha = true;
                 } else {
-                    // Se ainda houver monstros na lista, escolha o próximo monstro para a próxima batalha
-                	int dado = Calculos.lancarDado();
+                    int dado = Calculos.lancarDado();
                 	if(dado >= monstros.size()) {
                 		dado = monstros.size() -1;
                 	}
-                    monstro = monstros.get(dado); // Por exemplo, escolhendo o primeiro monstro da lista
+                	while(!monstros.isEmpty()) {
+                		monstro = monstros.get(dado);
+                		System.out.println("Próximo monstro: " + monstro.getNome());
+                		comecarBatalha(jogador, monstro);
+                	}
+                 
                 }
                 fimBatalha = true;
                 
