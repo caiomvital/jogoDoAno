@@ -1,23 +1,27 @@
 package controller;
 
 import model.Char;
-import model.Dragao;
 import view.DragaoVerde;
+import view.SlimeVerde;
+import view.ZumbiVerde;
 
 public class Principal {
 
 	public static void main(String[] args) {
 		
-		
-		
-		Char tadeu = new Char(200, 10, 10);
+		Char tadeu = new Char(1200, 10, 10);
 		Jogo.comecarJogo(tadeu);
 		tadeu.exibirInformacoes();
-		Dragao dragao = new DragaoVerde(20, 5);
+		DragaoVerde dragao = new DragaoVerde(20,5);
+		SlimeVerde slime = new SlimeVerde(20, 5);
+		ZumbiVerde zumbi = new ZumbiVerde(20, 5);
 		dragao.exibirInformacoes();
-		
-		Jogo.comecarBatalha(tadeu, dragao);
+		slime.exibirInformacoes();
+		zumbi.exibirInformacoes();
+		Jogo.comecarBatalha(tadeu, slime);
 		tadeu.curar(Calculos.lancarDado());
+		
+		
 
 	}
 
