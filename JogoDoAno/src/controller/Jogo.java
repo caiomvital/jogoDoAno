@@ -16,6 +16,7 @@ import view.ZumbiVerde;
 public class Jogo {
 	
 	private static List<Monstro> monstros;
+	private static int contador = 0;
 	
 	public static final String MENU =
 	        """
@@ -73,14 +74,19 @@ public class Jogo {
 	// lógica da batalha
 	public static boolean fimBatalha;
 	
-	public static void comecarBatalha(Char jogador, Monstro monstro) {
+	public static void comecarBatalha(Char jogador, Monstro monstro, boolean adicionadoAoContador) {
+		contador++;
         System.out.println("A batalha entre " + jogador.getNome() + 
         		" e " + monstro.getNome() + " começou!");
+        System.out.println("Este é o " + contador + "º monstro!");
 		do {
         	jogador.atacar(monstro, jogador);
             if (monstro.getVida() > 0) {
                 monstro.causarDano(monstro.getAtaque(), jogador);
                 
+            }
+            if (!adicionadoAoContador) {
+                monstros.remove(monstro);
             }
 
             // exibe resultado da batalha
@@ -112,10 +118,10 @@ public class Jogo {
                 	if(dado >= monstros.size()) {
                 		dado = monstros.size() -1;
                 	}
-                	while(!monstros.isEmpty()) {
+                	while(!fimBatalha && !monstros.isEmpty()) {
                 		monstro = monstros.get(dado);
                 		System.out.println("Próximo monstro: " + monstro.getNome());
-                		comecarBatalha(jogador, monstro);
+                		comecarBatalha(jogador, monstro, true);
                 	}
                  
                 }
